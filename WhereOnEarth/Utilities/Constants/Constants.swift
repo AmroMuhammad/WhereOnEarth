@@ -21,4 +21,15 @@ struct Constants {
         static let noConnection = "No Internet Connection, plaese try again"
         static let SomeThingWentWrong = "Something went wrong"
     }
+
+    struct Localization {
+        static let appName = "Where On Earth?"
+        static let defaultCountry = "Default Country:"
+        static let country = "Country:"
+        static let capital = "Capital:"
+        static let currency = "Currency:"
+        static let selectedCountries = "Selected Countries:"
+        static let addCountryButtonTitle = "Add Country"
+        
+    }
 }
