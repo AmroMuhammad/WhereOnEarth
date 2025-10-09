@@ -47,3 +47,17 @@ struct OneTimeCallingModifier: ViewModifier {
             }
     }
 }
+
+//MARK: - Keyboard
+extension View {
+    func hideKeyboardOnTap() -> some View {
+        self.modifier(HideKeyboardModifier())
+    }
+}
+
+//MARK: - toast
+extension View {
+    func toast(isPresented: Binding<Bool>, message: String, duration: TimeInterval = 2.0) -> some View {
+        self.modifier(ToastModifier(isPresented: isPresented, message: message, duration: duration))
+    }
+}

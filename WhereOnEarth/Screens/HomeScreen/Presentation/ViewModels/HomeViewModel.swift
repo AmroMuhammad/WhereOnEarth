@@ -17,8 +17,18 @@ class HomeViewModel: ObservableObject {
     @Published var allCountries: [Country] = []
     @Published var isSuccess: Bool?
     @Published var showError: Bool?
+    @Published var searchQuery = ""
+    @Published var exceedMaxSelectedCountries: Bool = false
+    @Published var selectedCountriesList: [Country] = []
+    @Published var selectedCountry: Country?
+
+    private let maxSelectedCountries = 5
     var errorMessage: String = ""
     private var cancellables = Set<AnyCancellable>()
+    
+    var searchList: [Country] {
+        searchQuery.isEmpty ? allCountries : allCountries.filter {$0.name?.common?.localizedCaseInsensitiveContains(searchQuery) ?? false}
+    }
     
     init(countriesUseCase: FetchCountriesUseCaseContract = FetchCountriesUseCase(),
          locationManager: LocationManager = LocationManager()) {
@@ -58,5 +68,19 @@ class HomeViewModel: ObservableObject {
     func getCurrentUserCountry() -> Country? {
         return allCountries.first(where: { $0.name?.common == currentUserCountry }) ??
         allCountries.first(where: { $0.name?.common == Constants.Localization.egypt })
+    }
+    
+    func countrySelection(_ country: Country) {
+        if selectedCountriesList.contains(country) {
+            selectedCountriesList.removeAll { $0 == country }
+            exceedMaxSelectedCountries = false
+        } else {
+            if selectedCountriesList.count < maxSelectedCountries {
+                selectedCountriesList.append(country)
+                exceedMaxSelectedCountries = false
+            }else{
+                exceedMaxSelectedCountries = true
+            }
+        }
     }
 }
