@@ -13,7 +13,7 @@ struct HomeView: View {
     var body: some View {
         VStack(spacing: 20) {
             SearchView()
-            DefaultCountryView()
+            DefaultCountryView(viewModel: viewModel)
             SelectedCountriesListView()
             AddCountryButton()
         }

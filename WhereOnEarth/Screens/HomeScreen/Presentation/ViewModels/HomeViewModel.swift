@@ -54,4 +54,9 @@ class HomeViewModel: ObservableObject {
                 self.allCountries = countries
             }.store(in: &cancellables)
     }
+    
+    func getCurrentUserCountry() -> Country? {
+        return allCountries.first(where: { $0.name?.common == currentUserCountry }) ??
+        allCountries.first(where: { $0.name?.common == Constants.Localization.egypt })
+    }
 }
