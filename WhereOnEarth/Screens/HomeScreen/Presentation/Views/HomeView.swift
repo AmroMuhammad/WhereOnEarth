@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct HomeView: View {
+    @StateObject var viewModel: HomeViewModel = HomeViewModel()
+    
     var body: some View {
         VStack(spacing: 20) {
             SearchView()
@@ -16,6 +18,9 @@ struct HomeView: View {
             AddCountryButton()
         }
         .padding(16)
+        .oneTimeCalling{
+            viewModel.getAllCountries()
+        }
     }
 }
 

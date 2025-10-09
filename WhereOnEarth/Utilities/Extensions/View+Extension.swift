@@ -24,3 +24,26 @@ extension View {
         )
     }
 }
+
+//MARK: - OneTimeCalling
+extension View {
+    func oneTimeCalling(_ action: @escaping () -> Void) -> some View {
+        self.modifier(OneTimeCallingModifier(action: action))
+    }
+}
+
+//MARK: - OneTimeCalling
+struct OneTimeCallingModifier: ViewModifier {
+    @State private var hasBeenCalled = false
+    let action: () -> Void
+    
+    func body(content: Content) -> some View {
+        content
+            .onAppear {
+                if !hasBeenCalled {
+                    hasBeenCalled = true
+                    action()
+                }
+            }
+    }
+}
