@@ -39,6 +39,9 @@ struct Constants {
         static let addUpToCountries = "You can add up to 5 countries"
         static let error = "Error"
         static let retry = "Retry"
+        static let alertDeleteConfirmation = "Confirmation!"
+        static let alertDeleteDescription = "Do you want to delete this country?"
+        static let delete = "Delete"
         static let cancel = "Cancel"
     }
 }

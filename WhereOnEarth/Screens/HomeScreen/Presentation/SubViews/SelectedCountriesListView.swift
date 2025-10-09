@@ -9,7 +9,8 @@ import SwiftUI
 
 struct SelectedCountriesListView: View {
     @ObservedObject var viewModel: HomeViewModel
-    
+    @EnvironmentObject var popupPresent: PopupPresent
+
     var body: some View {
         VStack {
             HeaderTitleView(title: Constants.Localization.selectedCountries)
@@ -29,7 +30,10 @@ struct SelectedCountriesListView: View {
                     } else {
                         ForEach(viewModel.selectedCountriesList, id: \.self) { item in
                             SelectedCountriesRowView(
-                                country: item
+                                country: item,
+                                onDelete: {
+                                    presentConfirmationPopup(item: item)
+                                }
                             )
                             .onTapGesture {
                                 viewModel.selectedCountry = item
@@ -48,6 +52,30 @@ struct SelectedCountriesListView: View {
             )
         }
         
+    }
+}
+
+extension SelectedCountriesListView{
+    private func presentConfirmationPopup(item: Country) {
+        self.popupPresent.popupView.content = {
+            AnyView(
+                CustomDialog(
+                    icon: nil,
+                    title: Constants.Localization.alertDeleteConfirmation,
+                    message: Constants.Localization.alertDeleteDescription,
+                    primaryButtonTitle: Constants.Localization.delete,
+                    primaryAction: {
+                        viewModel.deleteCountry(item)
+                        popupPresent.isPopupPresented = false
+                    },
+                    secondaryButtonTitle: Constants.Localization.cancel,
+                    secondaryAction: {
+                        popupPresent.isPopupPresented = false
+                    }
+                )
+            )
+        }
+        popupPresent.isPopupPresented = true
     }
 }
 
