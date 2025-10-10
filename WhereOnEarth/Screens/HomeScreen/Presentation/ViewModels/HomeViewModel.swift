@@ -15,12 +15,12 @@ class HomeViewModel: ObservableObject {
     @Published var locationManager: LocationManager
     
     @Published  var currentUserCountry: String = ""
-    @Published var allCountries: [Country] = []
+    @Published var allCountries: Countries = []
     @Published var isSuccess: Bool?
     @Published var showError: Bool?
     @Published var searchQuery = ""
     @Published var exceedMaxSelectedCountries: Bool = false
-    @Published var selectedCountriesList: [Country] = []
+    @Published var selectedCountriesList: Countries = []
     @Published var selectedCountry: Country?
     @Published var shouldNavigateToCountryDetail: Bool = false
 
@@ -28,8 +28,8 @@ class HomeViewModel: ObservableObject {
     var errorMessage: String = ""
     private var cancellables = Set<AnyCancellable>()
     
-    var searchList: [Country] {
-        searchQuery.isEmpty ? allCountries : allCountries.filter {$0.name?.common?.localizedCaseInsensitiveContains(searchQuery) ?? false}
+    var searchList: Countries {
+        searchQuery.isEmpty ? allCountries : allCountries.filter {$0.name.localizedCaseInsensitiveContains(searchQuery)}
     }
     
     init(countriesUseCase: FetchCountriesUseCaseContract = FetchCountriesUseCase(),
@@ -71,8 +71,8 @@ class HomeViewModel: ObservableObject {
     }
     
     func getCurrentUserCountry() -> Country? {
-        return allCountries.first(where: { $0.name?.common == currentUserCountry }) ??
-        allCountries.first(where: { $0.name?.common == Constants.Localization.egypt })
+        return allCountries.first(where: { $0.name == currentUserCountry }) ??
+        allCountries.first(where: { $0.name == Constants.Localization.egypt })
     }
     
     func countrySelection(_ country: Country) {

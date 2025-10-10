@@ -16,7 +16,7 @@ struct CountryDetailsView: View {
             Color(.white)
                 .ignoresSafeArea()
             VStack {
-                CountryFlagView(url: country.flags?.png)
+                CountryFlagView(url: country.flag)
                     .frame(maxWidth: .infinity, maxHeight: 200)
                 Spacer().frame(height: 20)
                 CountryCardGridView(country: country)
@@ -29,19 +29,5 @@ struct CountryDetailsView: View {
 }
 
 #Preview {
-    CountryDetailsView(country: Country(
-        flags: nil,
-        name: Name(
-            common: "Egypt",
-            official: "Egypt",
-            nativeName: nil
-        ),
-        cca2: nil,
-        currencies: ["" : Currency(name: "Pound", symbol: "LE")],
-        capital: ["Cairo"],
-        subregion: nil,
-        languages: ["": "Arabic"],
-        population: nil,
-        timezones: nil
-    ))
+    CountryDetailsView(country: Constants.dummyCountry)
 }

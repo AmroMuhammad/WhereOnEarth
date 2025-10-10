@@ -30,9 +30,9 @@ struct CountriesSelectionSheet: View {
                 LazyVStack {
                     ForEach(viewModel.searchList) { item in
                         HStack {
-                            CountryFlagView(url: item.flags?.png)
+                            CountryFlagView(url: item.flag)
                                 .frame(width: 40, height: 40)
-                            Text(item.name?.common ?? "")
+                            Text(item.name)
                             Spacer()
                             viewModel.selectedCountriesList.contains(item) ? AppResources.Assets.checkIcon : AppResources.Assets.unCheckIcon
                         }

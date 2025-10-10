@@ -18,5 +18,9 @@ final class CountriesRemoteRepository: CountriesRemoteRepositoryContract {
     
     func fetchCountries() -> AnyPublisher<[Country], APIClientError> {
         apiClient.performRequest(CountriesEndpoint.getAll)
+            .map { (dtos: [CountryDTO]) -> [Country] in
+                dtos.map(CountryMapper.map)
+            }
+            .eraseToAnyPublisher()
     }
 }

@@ -8,5 +8,5 @@
 import Combine
 
 protocol CountriesRemoteRepositoryContract {
-    func fetchCountries() -> AnyPublisher<[Country], APIClientError>
+    func fetchCountries() -> AnyPublisher<Countries, APIClientError>
 }

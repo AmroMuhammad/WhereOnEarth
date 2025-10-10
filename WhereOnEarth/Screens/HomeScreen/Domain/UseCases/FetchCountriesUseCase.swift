@@ -8,7 +8,7 @@
 import Combine
 
 protocol FetchCountriesUseCaseContract {
-    func executeFetchCountries() -> AnyPublisher<[Country], APIClientError>
+    func executeFetchCountries() -> AnyPublisher<Countries, APIClientError>
 }
 
 final class FetchCountriesUseCase: FetchCountriesUseCaseContract {
@@ -19,7 +19,7 @@ final class FetchCountriesUseCase: FetchCountriesUseCaseContract {
         self.repo = repo
     }
     
-    func executeFetchCountries() -> AnyPublisher<[Country], APIClientError> {
+    func executeFetchCountries() -> AnyPublisher<Countries, APIClientError> {
         repo.fetchCountries()
     }
 }

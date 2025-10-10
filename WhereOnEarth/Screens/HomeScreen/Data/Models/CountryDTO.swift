@@ -7,14 +7,12 @@
 
 import Foundation
 
-typealias Countries = [Country]
-
-// MARK: - Country
-struct Country: Codable, Hashable, Identifiable {
-    let flags: Flags?
-    let name: Name?
+// MARK: - CountryDTO
+struct CountryDTO: Codable, Hashable, Identifiable {
+    let flags: FlagsDTO?
+    let name: NameDTO?
     let cca2: String?
-    let currencies: [String: Currency]?
+    let currencies: [String: CurrencyDTO]?
     let capital: [String]?
     let subregion: String?
     let languages: [String: String]?
@@ -25,7 +23,7 @@ struct Country: Codable, Hashable, Identifiable {
         name?.common ?? UUID().uuidString
     }
     
-    static func == (lhs: Country, rhs: Country) -> Bool {
+    static func == (lhs: CountryDTO, rhs: CountryDTO) -> Bool {
         lhs.name?.common == rhs.name?.common
     }
     
@@ -34,8 +32,8 @@ struct Country: Codable, Hashable, Identifiable {
     }
 }
 
-// MARK: - Currency
-struct Currency: Codable {
+// MARK: - CurrencyDTO
+struct CurrencyDTO: Codable {
     let name, symbol: String?
     
     var compinedName: String {
@@ -43,20 +41,20 @@ struct Currency: Codable {
     }
 }
 
-// MARK: - Flags
-struct Flags: Codable {
+// MARK: - FlagsDTO
+struct FlagsDTO: Codable {
     let png: String?
     let svg: String?
     let alt: String?
 }
 
-// MARK: - Name
-struct Name: Codable {
+// MARK: - NameDTO
+struct NameDTO: Codable {
     let common, official: String?
-    let nativeName: [String: NativeName]?
+    let nativeName: [String: NativeNameDTO]?
 }
 
-// MARK: - NativeName
-struct NativeName: Codable {
+// MARK: - NativeNameDTO
+struct NativeNameDTO: Codable {
     let official, common: String?
 }

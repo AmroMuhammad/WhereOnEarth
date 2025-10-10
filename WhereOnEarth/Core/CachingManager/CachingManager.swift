@@ -9,8 +9,8 @@ import Foundation
 import Combine
 
 protocol CachingManagerContract {
-    func save(_ countries: [Country])
-    func load() -> [Country]
+    func save(_ countries: Countries)
+    func load() -> Countries
 }
 
 class CachingManager: CachingManagerContract {
@@ -26,16 +26,16 @@ class CachingManager: CachingManagerContract {
         self.key = key
     }
     
-    func save(_ countries: [Country]) {
+    func save(_ countries: Countries) {
         let encoder = JSONEncoder()
         if let data = try? encoder.encode(countries) {
             userDefaults.set(data, forKey: key)
         }
     }
     
-    func load() -> [Country] {
+    func load() -> Countries {
         guard let data = userDefaults.data(forKey: key) else { return [] }
         let decoder = JSONDecoder()
-        return (try? decoder.decode([Country].self, from: data)) ?? []
+        return (try? decoder.decode(Countries.self, from: data)) ?? []
     }
 }

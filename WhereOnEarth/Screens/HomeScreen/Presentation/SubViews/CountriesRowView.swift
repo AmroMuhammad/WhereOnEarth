@@ -13,9 +13,9 @@ struct CountriesRowView: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            CountryFlagView(url: country.flags?.png ?? "")
+            CountryFlagView(url: country.flag)
                 .frame(width: 40, height: 40)
-            Text(country.name?.common ?? "")
+            Text(country.name)
                 .font(.headline)
                 .foregroundStyle(.main)
             
@@ -39,5 +39,5 @@ struct CountriesRowView: View {
 }
 
 #Preview {
-    CountriesRowView(country: Country(flags: nil, name: nil, cca2: nil, currencies: nil, capital: nil, subregion: nil, languages: nil, population: nil, timezones: nil), onDelete: {})
+    CountriesRowView(country: Constants.dummyCountry, onDelete: {})
 }
