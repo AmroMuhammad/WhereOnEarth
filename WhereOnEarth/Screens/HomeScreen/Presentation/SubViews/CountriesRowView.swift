@@ -1,5 +1,5 @@
 //
-//  SelectedCountriesRowView.swift
+//  CountriesRowView.swift
 //  WhereOnEarth
 //
 //  Created by Amr Muhammad on 08/10/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectedCountriesRowView: View {
+struct CountriesRowView: View {
     let country: Country
     let onDelete: () -> Void
     
@@ -39,5 +39,5 @@ struct SelectedCountriesRowView: View {
 }
 
 #Preview {
-    SelectedCountriesRowView(country: Country(flags: nil, name: nil, cca2: nil, currencies: nil, capital: nil, subregion: nil, languages: nil, population: nil, timezones: nil), onDelete: {})
+    CountriesRowView(country: Country(flags: nil, name: nil, cca2: nil, currencies: nil, capital: nil, subregion: nil, languages: nil, population: nil, timezones: nil), onDelete: {})
 }

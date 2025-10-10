@@ -9,16 +9,17 @@ import SwiftUI
 
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel = HomeViewModel()
-    @State var openCountryPicker: Bool = false
     @EnvironmentObject var loading: Loading
     @EnvironmentObject var popupPresent: PopupPresent
     @EnvironmentObject var navigationManager: NavigationManager
+
+    @State var openCountryPicker: Bool = false
 
     var body: some View {
         VStack(spacing: 20) {
             HeaderTitleView(title: Constants.Localization.appName, isLargeTitle: true, titleColor: .main)
             DefaultCountryView(viewModel: viewModel)
-            SelectedCountriesListView(viewModel: viewModel)
+            CountriesListView(viewModel: viewModel)
             AddCountryButton(openCountryPicker: $openCountryPicker)
         }
         .padding(16)

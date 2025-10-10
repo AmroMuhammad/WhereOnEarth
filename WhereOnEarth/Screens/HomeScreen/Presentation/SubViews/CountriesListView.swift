@@ -1,5 +1,5 @@
 //
-//  SelectedCountriesListView.swift
+//  CountriesListView.swift
 //  WhereOnEarth
 //
 //  Created by Amr Muhammad on 08/10/2025.
@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct SelectedCountriesListView: View {
+struct CountriesListView: View {
     @ObservedObject var viewModel: HomeViewModel
     @EnvironmentObject var popupPresent: PopupPresent
 
@@ -29,7 +29,7 @@ struct SelectedCountriesListView: View {
                         
                     } else {
                         ForEach(viewModel.selectedCountriesList, id: \.self) { item in
-                            SelectedCountriesRowView(
+                            CountriesRowView(
                                 country: item,
                                 onDelete: {
                                     presentConfirmationPopup(item: item)
@@ -37,6 +37,7 @@ struct SelectedCountriesListView: View {
                             )
                             .onTapGesture {
                                 viewModel.selectedCountry = item
+                                viewModel.shouldNavigateToCountryDetail = true
                             }
                         }
                         
@@ -55,7 +56,7 @@ struct SelectedCountriesListView: View {
     }
 }
 
-extension SelectedCountriesListView{
+extension CountriesListView {
     private func presentConfirmationPopup(item: Country) {
         self.popupPresent.popupView.content = {
             AnyView(
@@ -80,5 +81,5 @@ extension SelectedCountriesListView{
 }
 
 #Preview {
-    SelectedCountriesListView(viewModel: HomeViewModel())
+    CountriesListView(viewModel: HomeViewModel())
 }

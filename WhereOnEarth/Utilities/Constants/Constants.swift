@@ -45,5 +45,6 @@ struct Constants {
         static let cancel = "Cancel"
         static let language = "Language:"
         static let cacheKey = "selected_countries"
+        static let countryDetails = "Country Details"
     }
 }

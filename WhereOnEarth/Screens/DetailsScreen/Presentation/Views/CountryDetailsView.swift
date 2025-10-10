@@ -23,6 +23,7 @@ struct CountryDetailsView: View {
                 Spacer()
             }
             .padding(16)
+            .navigationTitle(Text(Constants.Localization.countryDetails))
         }
     }
 }
