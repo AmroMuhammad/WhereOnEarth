@@ -37,6 +37,10 @@ struct Country: Codable, Hashable, Identifiable {
 // MARK: - Currency
 struct Currency: Codable {
     let name, symbol: String?
+    
+    var compinedName: String {
+        "\(name ?? "") (\(symbol ?? ""))"
+    }
 }
 
 // MARK: - Flags

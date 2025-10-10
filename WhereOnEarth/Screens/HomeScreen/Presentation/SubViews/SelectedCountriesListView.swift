@@ -7,25 +7,78 @@
 
 import SwiftUI
 
-let dummyList = [Country(flags: Flags(png: "https://flagcdn.com/w320/lt.png", svg: nil, alt: nil), name: Name(common: "Litho", official: "Litho", nativeName: nil), cca2: nil, currencies: ["Euro": Currency(name: "hello", symbol: "$")], capital: nil, subregion: nil, languages: nil, population: nil, timezones: nil)
-]
 struct SelectedCountriesListView: View {
+    @ObservedObject var viewModel: HomeViewModel
+    @EnvironmentObject var popupPresent: PopupPresent
+
     var body: some View {
-        VStack(spacing: 8) {
+        VStack {
             HeaderTitleView(title: Constants.Localization.selectedCountries)
             ScrollView{
                 VStack(spacing: 12) {
-                    ForEach(dummyList, id: \.self) { item in
-                        SelectedCountriesRowView(
-                            country: item
-                        )
+                    if viewModel.selectedCountriesList.isEmpty {
+                        Spacer()
+                        AppResources.Assets.emptyList
+                            .resizable()
+                            .frame(width: 200, height: 200)
+                        Text(Constants.Localization.addUpToCountries)
+                            .font(.title3)
+                            .foregroundStyle(.black)
+                            .multilineTextAlignment(.center)
+                        Spacer()
+                        
+                    } else {
+                        ForEach(viewModel.selectedCountriesList, id: \.self) { item in
+                            SelectedCountriesRowView(
+                                country: item,
+                                onDelete: {
+                                    presentConfirmationPopup(item: item)
+                                }
+                            )
+                            .onTapGesture {
+                                viewModel.selectedCountry = item
+                            }
+                        }
+                        
                     }
                 }
             }
+            .frame(maxWidth: .infinity, maxHeight: 380)
+            .padding()
+            .backgroundStyle(
+                cornerRadius: 12,
+                borderColor: .border,
+                borderWidth: 1
+            )
         }
+        
+    }
+}
+
+extension SelectedCountriesListView{
+    private func presentConfirmationPopup(item: Country) {
+        self.popupPresent.popupView.content = {
+            AnyView(
+                CustomDialog(
+                    icon: nil,
+                    title: Constants.Localization.alertDeleteConfirmation,
+                    message: Constants.Localization.alertDeleteDescription,
+                    primaryButtonTitle: Constants.Localization.delete,
+                    primaryAction: {
+                        viewModel.deleteCountry(item)
+                        popupPresent.isPopupPresented = false
+                    },
+                    secondaryButtonTitle: Constants.Localization.cancel,
+                    secondaryAction: {
+                        popupPresent.isPopupPresented = false
+                    }
+                )
+            )
+        }
+        popupPresent.isPopupPresented = true
     }
 }
 
 #Preview {
-    SelectedCountriesListView()
+    SelectedCountriesListView(viewModel: HomeViewModel())
 }

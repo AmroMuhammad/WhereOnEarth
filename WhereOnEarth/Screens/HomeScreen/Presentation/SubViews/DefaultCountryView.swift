@@ -8,19 +8,21 @@
 import SwiftUI
 
 struct DefaultCountryView: View {
+    @ObservedObject var viewModel: HomeViewModel
+    
     var body: some View {
         VStack(spacing: 8) {
             HeaderTitleView(title: Constants.Localization.defaultCountry)
             
             HStack(spacing: 12) {
-                CountryFlagView(url: "https://flagcdn.com/w320/lt.png")
+                CountryFlagView(url: viewModel.getCurrentUserCountry()?.flags?.png ?? "")
                     .frame(width: 40, height: 40)
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("\(Constants.Localization.country) Egypt")
+                    Text("\(Constants.Localization.country) \(viewModel.getCurrentUserCountry()?.name?.common ?? "")")
                         .font(.callout)
-                    Text("\(Constants.Localization.capital) Cairo")
+                    Text("\(Constants.Localization.capital) \(viewModel.getCurrentUserCountry()?.capital?.first ?? "")")
                         .font(.callout)
-                    Text("\(Constants.Localization.currency) Pound")
+                    Text("\(Constants.Localization.currency) \(viewModel.getCurrentUserCountry()?.currencies?.values.first?.compinedName ?? "")")
                         .font(.callout)
                 }
                 Spacer()
@@ -37,5 +39,5 @@ struct DefaultCountryView: View {
 }
 
 #Preview {
-    DefaultCountryView()
+    DefaultCountryView(viewModel: HomeViewModel())
 }

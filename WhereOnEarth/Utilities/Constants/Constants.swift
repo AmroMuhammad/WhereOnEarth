@@ -30,6 +30,18 @@ struct Constants {
         static let currency = "Currency:"
         static let selectedCountries = "Selected Countries:"
         static let addCountryButtonTitle = "Add Country"
-        
+        static let egypt = "Egypt"
+        static let done = "Done"
+        static let searchCountries = "Search for countries"
+        static let otherCountry = "other countries :"
+        static let onlyFiveCountriesAllowed = "You Can't Add more than 5 Countries."
+        static let checkConnection = "Something went wrong, Please check your Internet Connection and try again"
+        static let addUpToCountries = "You can add up to 5 countries"
+        static let error = "Error"
+        static let retry = "Retry"
+        static let alertDeleteConfirmation = "Confirmation!"
+        static let alertDeleteDescription = "Do you want to delete this country?"
+        static let delete = "Delete"
+        static let cancel = "Cancel"
     }
 }
