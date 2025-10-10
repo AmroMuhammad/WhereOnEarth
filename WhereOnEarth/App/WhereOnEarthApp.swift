@@ -12,6 +12,8 @@ import SwiftData
 struct WhereOnEarthApp: App {
     @StateObject private var loading = Loading()
     @StateObject var popupPresent = PopupPresent()
+    @StateObject private var navigationManager = NavigationManager()
+
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -28,8 +30,14 @@ struct WhereOnEarthApp: App {
     var body: some Scene {
         WindowGroup {
             AppLoader{
-                HomeView()
+                NavigationStack(path: $navigationManager.path) {
+                    HomeView()
+                        .navigationDestination(for: AppRoute.self) { route in
+                            AppRouter.view(for: route)
+                        }
+                }
             }
+            .environmentObject(navigationManager)
             .environmentObject(popupPresent)
             .environmentObject(loading)
             .popup(isPresented: popupPresent.isPopupPresented) {
