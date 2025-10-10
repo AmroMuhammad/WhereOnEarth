@@ -11,15 +11,16 @@ import Combine
 class HomeViewModel: ObservableObject {
     
     private let countriesUseCase: FetchCountriesUseCaseContract
+    private let cachingManager: CachingManagerContract
     @Published var locationManager: LocationManager
     
     @Published  var currentUserCountry: String = ""
-    @Published var allCountries: [Country] = []
+    @Published var allCountries: Countries = []
     @Published var isSuccess: Bool?
     @Published var showError: Bool?
     @Published var searchQuery = ""
     @Published var exceedMaxSelectedCountries: Bool = false
-    @Published var selectedCountriesList: [Country] = []
+    @Published var selectedCountriesList: Countries = []
     @Published var selectedCountry: Country?
     @Published var shouldNavigateToCountryDetail: Bool = false
 
@@ -27,14 +28,17 @@ class HomeViewModel: ObservableObject {
     var errorMessage: String = ""
     private var cancellables = Set<AnyCancellable>()
     
-    var searchList: [Country] {
-        searchQuery.isEmpty ? allCountries : allCountries.filter {$0.name?.common?.localizedCaseInsensitiveContains(searchQuery) ?? false}
+    var searchList: Countries {
+        searchQuery.isEmpty ? allCountries : allCountries.filter {$0.name.localizedCaseInsensitiveContains(searchQuery)}
     }
     
     init(countriesUseCase: FetchCountriesUseCaseContract = FetchCountriesUseCase(),
-         locationManager: LocationManager = LocationManager()) {
+         locationManager: LocationManager = LocationManager(),
+         cachingManager: CachingManagerContract = CachingManager()
+    ) {
         self.countriesUseCase = countriesUseCase
         self.locationManager = locationManager
+        self.cachingManager = cachingManager
         self.currentUserCountry = locationManager.userCountry
         bindLocationUpdates()
     }
@@ -67,8 +71,8 @@ class HomeViewModel: ObservableObject {
     }
     
     func getCurrentUserCountry() -> Country? {
-        return allCountries.first(where: { $0.name?.common == currentUserCountry }) ??
-        allCountries.first(where: { $0.name?.common == Constants.Localization.egypt })
+        return allCountries.first(where: { $0.name == currentUserCountry }) ??
+        allCountries.first(where: { $0.name == Constants.Localization.egypt })
     }
     
     func countrySelection(_ country: Country) {
@@ -87,5 +91,14 @@ class HomeViewModel: ObservableObject {
     
     func deleteCountry(_ country: Country) {
         selectedCountriesList.removeAll { $0 == country }
+        cachingManager.save(selectedCountriesList)
+    }
+    
+    func saveSelectedCountries() {
+        cachingManager.save(selectedCountriesList)
+    }
+    
+    func loadCachedCountries() {
+        selectedCountriesList = cachingManager.load()
     }
 }

@@ -29,22 +29,22 @@ struct CountryCardGridView: View {
             (
                 AppResources.Assets.globe,
                 Constants.Localization.country,
-                country.name?.common ?? "-"
+                country.name
             ),
             (
                 AppResources.Assets.capitalLogo,
                 Constants.Localization.capital,
-                country.capital?.first ?? "-"
+                country.capital
             ),
             (
                 AppResources.Assets.currencyLogo,
                 Constants.Localization.currency,
-                country.currencies?.values.first?.name ?? "-"
+                country.currency.name ?? "-"
             ),
             (
                 AppResources.Assets.languageLogo,
                 Constants.Localization.language,
-                country.languages?.values.first ?? "-"
+                country.language
             )
         ]
     }
@@ -55,19 +55,5 @@ struct CountryCardGridView: View {
 }
 
 #Preview {
-    CountryCardGridView(country: Country(
-        flags: nil,
-        name: Name(
-            common: "Egypt",
-            official: "Egypt",
-            nativeName: nil
-        ),
-        cca2: nil,
-        currencies: ["" : Currency(name: "Pound", symbol: "LE")],
-        capital: ["Cairo"],
-        subregion: nil,
-        languages: ["": "Arabic"],
-        population: nil,
-        timezones: nil
-    ))
+    CountryCardGridView(country: Constants.dummyCountry)
 }

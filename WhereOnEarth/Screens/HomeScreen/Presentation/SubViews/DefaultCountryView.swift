@@ -15,14 +15,14 @@ struct DefaultCountryView: View {
             HeaderTitleView(title: Constants.Localization.defaultCountry)
             
             HStack(spacing: 12) {
-                CountryFlagView(url: viewModel.getCurrentUserCountry()?.flags?.png ?? "")
+                CountryFlagView(url: viewModel.getCurrentUserCountry()?.flag ?? "")
                     .frame(width: 40, height: 40)
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("\(Constants.Localization.country) \(viewModel.getCurrentUserCountry()?.name?.common ?? "")")
+                    Text("\(Constants.Localization.country) \(viewModel.getCurrentUserCountry()?.name ?? "")")
                         .font(.callout)
-                    Text("\(Constants.Localization.capital) \(viewModel.getCurrentUserCountry()?.capital?.first ?? "")")
+                    Text("\(Constants.Localization.capital) \(viewModel.getCurrentUserCountry()?.capital ?? "")")
                         .font(.callout)
-                    Text("\(Constants.Localization.currency) \(viewModel.getCurrentUserCountry()?.currencies?.values.first?.compinedName ?? "")")
+                    Text("\(Constants.Localization.currency) \(viewModel.getCurrentUserCountry()?.currency.compinedName ?? "")")
                         .font(.callout)
                 }
                 Spacer()

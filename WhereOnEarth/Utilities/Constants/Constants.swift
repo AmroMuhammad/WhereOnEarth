@@ -44,5 +44,16 @@ struct Constants {
         static let delete = "Delete"
         static let cancel = "Cancel"
         static let language = "Language:"
+        static let cacheKey = "selected_countries"
+        static let countryDetails = "Country Details"
     }
+    
+    static let dummyCountry = Country(
+        id: "",
+        name: "Egypt",
+        capital: "Cairo",
+        currency: Currency(code: "", name: "Pound", symbol: "$"),
+        language: "Arabic",
+        flag: ""
+    )
 }
