@@ -21,6 +21,7 @@ class HomeViewModel: ObservableObject {
     @Published var exceedMaxSelectedCountries: Bool = false
     @Published var selectedCountriesList: [Country] = []
     @Published var selectedCountry: Country?
+    @Published var shouldNavigateToCountryDetail: Bool = false
 
     private let maxSelectedCountries = 5
     var errorMessage: String = ""

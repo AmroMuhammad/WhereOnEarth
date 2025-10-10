@@ -18,5 +18,9 @@ enum AppResources {
         static let emptyList = "emptyList".image
         static let errorIcon = "error-icon".image
         static let deleteIcon = "delete-icon".image
+        static let globe = "globe"
+        static let capitalLogo = "building.2"
+        static let currencyLogo = "dollarsign.circle"
+        static let languageLogo = "character.book.closed"
     }
 }

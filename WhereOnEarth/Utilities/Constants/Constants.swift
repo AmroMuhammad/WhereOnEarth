@@ -43,5 +43,6 @@ struct Constants {
         static let alertDeleteDescription = "Do you want to delete this country?"
         static let delete = "Delete"
         static let cancel = "Cancel"
+        static let language = "Language:"
     }
 }
