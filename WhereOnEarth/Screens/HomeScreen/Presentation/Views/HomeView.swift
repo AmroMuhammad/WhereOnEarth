@@ -16,7 +16,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            SearchView()
+            HeaderTitleView(title: Constants.Localization.appName, isLargeTitle: true, titleColor: .main)
             DefaultCountryView(viewModel: viewModel)
             SelectedCountriesListView(viewModel: viewModel)
             AddCountryButton(openCountryPicker: $openCountryPicker)
@@ -25,6 +25,7 @@ struct HomeView: View {
         .oneTimeCalling{
             loading.isLoading = true
             viewModel.getAllCountries()
+            viewModel.loadCachedCountries()
         }
         .onReceive(viewModel.$isSuccess) { value in
             guard value ?? false else { return }

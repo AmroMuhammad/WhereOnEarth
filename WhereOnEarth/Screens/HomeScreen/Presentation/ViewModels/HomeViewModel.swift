@@ -11,6 +11,7 @@ import Combine
 class HomeViewModel: ObservableObject {
     
     private let countriesUseCase: FetchCountriesUseCaseContract
+    private let cachingManager: CachingManagerContract
     @Published var locationManager: LocationManager
     
     @Published  var currentUserCountry: String = ""
@@ -32,9 +33,12 @@ class HomeViewModel: ObservableObject {
     }
     
     init(countriesUseCase: FetchCountriesUseCaseContract = FetchCountriesUseCase(),
-         locationManager: LocationManager = LocationManager()) {
+         locationManager: LocationManager = LocationManager(),
+         cachingManager: CachingManagerContract = CachingManager()
+    ) {
         self.countriesUseCase = countriesUseCase
         self.locationManager = locationManager
+        self.cachingManager = cachingManager
         self.currentUserCountry = locationManager.userCountry
         bindLocationUpdates()
     }
@@ -87,5 +91,14 @@ class HomeViewModel: ObservableObject {
     
     func deleteCountry(_ country: Country) {
         selectedCountriesList.removeAll { $0 == country }
+        cachingManager.save(selectedCountriesList)
+    }
+    
+    func saveSelectedCountries() {
+        cachingManager.save(selectedCountriesList)
+    }
+    
+    func loadCachedCountries() {
+        selectedCountriesList = cachingManager.load()
     }
 }

@@ -17,6 +17,7 @@ struct CountriesSelectionSheet: View {
             HStack{
                 Spacer()
                 Button(Constants.Localization.done) {
+                    viewModel.saveSelectedCountries()
                     searchQuery = ""
                     dismiss()
                 }.padding(20)

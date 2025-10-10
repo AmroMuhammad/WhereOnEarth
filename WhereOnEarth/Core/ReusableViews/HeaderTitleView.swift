@@ -9,12 +9,13 @@ import SwiftUI
 
 struct HeaderTitleView: View {
     let title: String
+    var isLargeTitle: Bool = false
     var titleColor: Color = .main
     
     var body: some View {
         HStack {
             Text(title)
-                .font(.headline)
+                .font(isLargeTitle ? .title2 : .headline)
                 .foregroundStyle(.main)
             Spacer()
         }
