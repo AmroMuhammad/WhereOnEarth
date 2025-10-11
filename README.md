@@ -93,32 +93,55 @@ Repository: Bridges use cases and remote data source, ensuring data availability
 
 
 🌐 Networking & Data Layer
+
 RemoteDataSource: Handles API calls via a custom networking layer.
+
 Networking Layer: Manages request construction, response handling, and error reporting.
+
 Local Storage: Uses UserDefaults to cache country data for offline access.
 
 🧪 Testing
+
+
 Includes unit tests for:
 
 Network Layer
+
 Repository
+
 Use Cases
+
 ViewModels
+
+
 🧰 Technologies Used
 
+
 Language: Swift 5.0+
+
 UI Framework: SwiftUI
+
 Networking: URLSession
+
 Local Storage: UserDefaults
+
 Image Loading: SDWebImageSwiftUI
+
 Testing: XCTest
+
+
 🎨 Design & Layout
 
 Focused on functional, clean layout over visual aesthetics.
+
 Reusable components for consistency and performance.
+
 Displays error messages and empty states when API fails.
+
 📶 Offline Support
 
 Caches selected countries for offline access.
+
 Alerts user when offline.
+
 Swipe-to-refresh available when back online.
