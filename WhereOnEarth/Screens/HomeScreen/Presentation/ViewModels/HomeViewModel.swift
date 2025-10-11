@@ -24,7 +24,7 @@ class HomeViewModel: ObservableObject {
     @Published var selectedCountry: Country?
     @Published var shouldNavigateToCountryDetail: Bool = false
 
-    private let maxSelectedCountries = 5
+    let maxSelectedCountries = 5
     var errorMessage: String = ""
     private var cancellables = Set<AnyCancellable>()
     
