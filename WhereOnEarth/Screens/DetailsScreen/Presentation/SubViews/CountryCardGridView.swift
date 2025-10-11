@@ -39,7 +39,7 @@ struct CountryCardGridView: View {
             (
                 AppResources.Assets.currencyLogo,
                 Constants.Localization.currency,
-                country.currency.name ?? "-"
+                country.currency.compinedName
             ),
             (
                 AppResources.Assets.languageLogo,
