@@ -11,8 +11,9 @@ struct HomeView: View {
     var body: some View {
         VStack(spacing: 20) {
             SearchView()
+            DefaultCountryView()
         }
-        .padding(20)
+        .padding(16)
     }
 }
 

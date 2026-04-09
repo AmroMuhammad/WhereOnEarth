@@ -23,5 +23,10 @@ struct Constants {
 
     struct Localization {
         static let appName = "Where On Earth?"
+        static let defaultCountry = "Default Country:"
+        static let country = "Country:"
+        static let capital = "Capital:"
+        static let currency = "Currency:"
+        
     }
 }

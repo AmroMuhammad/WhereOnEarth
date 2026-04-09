@@ -10,5 +10,6 @@ import Foundation
 enum AppResources {
     enum Assets {
         static let magnifyingGlass = "magnifyingglass".systemImage
+        static let flagPlaceholder = "flagPlaceholder".image
     }
 }

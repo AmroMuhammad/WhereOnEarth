@@ -20,7 +20,7 @@ struct SearchView: View {
                 .resizable()
                 .padding(.horizontal)
                 .foregroundStyle(.white)
-                .frame(width: 90 , height: 40)
+                .frame(width: 60 , height: 30)
                 .padding(12)
                 .background(
                     RoundedRectangle(cornerRadius: 12)
