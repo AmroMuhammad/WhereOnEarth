@@ -12,7 +12,7 @@ protocol ResponseValidatorProtocol {
 
 struct ResponseValidator: ResponseValidatorProtocol {
     func validate<T: Decodable>(response: URLResponse?, data: Data?, for type: T.Type) throws -> Data {
-        guard let httpResponse = response as? HTTPURLResponse, let nonOptionalData = data else {
+        guard let httpResponse = response as? HTTPURLResponse, let nonOptionalData = data as Data? else {
             throw APIClientError.apiError(.badResponse)
         }
         

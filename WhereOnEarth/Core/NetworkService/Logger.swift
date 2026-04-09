@@ -13,8 +13,8 @@ protocol LoggerProtocol {
 }
 
 struct Logger: LoggerProtocol {
-    static let shared: LoggerProtocol = Logger()
-
+    static var shared: LoggerProtocol = Logger()
+    
     func log(request: URLRequest) {
 #if DEBUG
         print("➡️ Request: \(request.httpMethod ?? "UNKNOWN") \(request.url?.absoluteString ?? "")")
@@ -27,7 +27,7 @@ struct Logger: LoggerProtocol {
         }
 #endif
     }
-
+    
     func log(response: HTTPURLResponse, data: Data) {
 #if DEBUG
         print("⬅️ Response: \(response.statusCode)")

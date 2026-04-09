@@ -7,7 +7,7 @@
 
 import Foundation
 
-public typealias DictionaryAny = [String: Any]
+public typealias DictionryAny = [String: Any]
 
 public protocol APIEndpoint {
     var baseURL: URL { get }
@@ -15,25 +15,15 @@ public protocol APIEndpoint {
     var method: HTTPMethod { get }
     var headers: [String: String]? { get }
     var apiType: APIType? { get }
-    var cachePolicy: URLRequest.CachePolicy { get }
-    var timeoutInterval: TimeInterval { get }
 }
 
 extension APIEndpoint {
     var baseURL: URL {
         return URL(string: URLs.baseURL.rawValue)!
     }
-
+    
     var headers: [String: String]? {
         return nil
-    }
-
-    var cachePolicy: URLRequest.CachePolicy {
-        return .useProtocolCachePolicy
-    }
-
-    var timeoutInterval: TimeInterval {
-        return 30
     }
 }
 
@@ -46,8 +36,8 @@ public enum HTTPMethod: String {
 }
 
 public enum APIType {
-    case jsonBody(_ json: DictionaryAny? = nil)
-    case urlQuery(_ parameters: DictionaryAny? = nil)
+    case jsonBody(_ JSON: DictionryAny? = nil)
+    case urlQuery(_ Dictionry: DictionryAny? = nil)
 }
 
 public enum APIError: Int, Error {
@@ -62,7 +52,7 @@ public enum APIError: Int, Error {
     case invalidURL = 1212121
     case noInternet = -1009
     
-    var errorDescription: String? {
+    var errorDescription: String {
         switch self {
             case .badResponse: return Constants.AppError.badResponse
             case .badRequest: return Constants.AppError.badRequest
@@ -93,7 +83,7 @@ public enum APIClientError: LocalizedError, Equatable {
     case decoding(Error)
     case unknown(Error)
     
-    public var errorDescription: String? {
+    public var errorDescription: String {
         switch self {
             case .apiError(let apiError):
                 return apiError.errorDescription
