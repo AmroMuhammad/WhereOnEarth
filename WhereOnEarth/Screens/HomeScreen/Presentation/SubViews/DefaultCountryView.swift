@@ -9,31 +9,28 @@ import SwiftUI
 
 struct DefaultCountryView: View {
     var body: some View {
-        VStack(spacing: 16) {
-            HeaderTitleView(title: AppConstants.Localization.defaultCountry)
+        VStack(spacing: 8) {
+            HeaderTitleView(title: Constants.Localization.defaultCountry)
             
             HStack(spacing: 12) {
-                CountryFlagView()
+                CountryFlagView(url: "https://flagcdn.com/w320/lt.png")
                     .frame(width: 40, height: 40)
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("\(AppConstants.Localization.country) Egypt")
+                    Text("\(Constants.Localization.country) Egypt")
                         .font(.callout)
-                    Text("\(AppConstants.Localization.capital) Cairo")
+                    Text("\(Constants.Localization.capital) Cairo")
                         .font(.callout)
-                    Text("\(AppConstants.Localization.currency) Pound")
+                    Text("\(Constants.Localization.currency) Pound")
                         .font(.callout)
                 }
                 Spacer()
             }
             .padding()
             .frame(height: 100)
-            .background(
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(.white)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 12)
-                    .stroke(.border, lineWidth: 1)
+            .backgroundStyle(
+                cornerRadius: 12,
+                borderColor: .border,
+                borderWidth: 1
             )
         }
     }

@@ -23,5 +23,5 @@ struct HeaderTitleView: View {
 }
 
 #Preview {
-    HeaderTitleView(title: AppConstants.Localization.defaultCountry)
+    HeaderTitleView(title: Constants.Localization.defaultCountry)
 }

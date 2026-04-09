@@ -12,6 +12,8 @@ struct HomeView: View {
         VStack(spacing: 20) {
             SearchView()
             DefaultCountryView()
+            SelectedCountriesListView()
+            AddCountryButton()
         }
         .padding(16)
     }

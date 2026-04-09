@@ -10,25 +10,22 @@ import SwiftUI
 struct SearchView: View {
     var body: some View {
         HStack{
-            Text(AppConstants.Localization.appName)
-                .font(.title)
+            Text(Constants.Localization.appName)
+                .font(.title2)
                 .foregroundStyle(.main)
             
             Spacer()
             
             AppResources.Assets.magnifyingGlass
-                .resizable()
                 .padding(.horizontal)
                 .foregroundStyle(.white)
-                .frame(width: 60 , height: 30)
+                .frame(width: 25, height: 25)
                 .padding(12)
-                .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(.main)
-                )
-                .overlay(
-                    RoundedRectangle(cornerRadius: 12)
-                        .stroke(.border, lineWidth: 1)
+                .backgroundStyle(
+                    cornerRadius: 12,
+                    borderColor: .border,
+                    borderWidth: 1,
+                    backgroundColor: .main
                 )
         }
     }

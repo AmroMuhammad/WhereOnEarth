@@ -6,16 +6,21 @@
 //
 
 import SwiftUI
+import SDWebImageSwiftUI
 
 struct CountryFlagView: View {
+    let url: String?
     var body: some View {
-        AppResources.Assets.flagPlaceholder
-            .resizable()
-            .scaledToFit()
-            .cornerRadius(5)
+        WebImage(url: URL(string: url ?? "")) { $0.resizable() }
+        placeholder: {
+            AppResources.Assets.flagPlaceholder
+                .resizable()
+        }
+        .scaledToFit()
+        .cornerRadius(5)
     }
 }
 
 #Preview {
-    CountryFlagView()
+    CountryFlagView(url: "https://flagcdn.com/w320/lt.png")
 }
