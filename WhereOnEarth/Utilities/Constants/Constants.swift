@@ -20,5 +20,8 @@ struct Constants {
         static let invalidURL = "Invalid URL"
         static let noConnection = "No Internet Connection, plaese try again"
         static let SomeThingWentWrong = "Something went wrong"
+
+    struct Localization {
+        static let appName = "Where On Earth?"
     }
 }
