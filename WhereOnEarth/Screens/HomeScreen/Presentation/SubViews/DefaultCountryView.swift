@@ -36,6 +36,10 @@ struct DefaultCountryView: View {
                 borderWidth: 1
             )
         }
+        .onTapGesture {
+            viewModel.selectedCountry = viewModel.defaultCountry
+            viewModel.shouldNavigateToCountryDetail = true
+        }
     }
 }
 

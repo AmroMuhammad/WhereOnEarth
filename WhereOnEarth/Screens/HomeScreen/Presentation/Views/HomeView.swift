@@ -12,6 +12,7 @@ struct HomeView: View {
     @State var openCountryPicker: Bool = false
     @EnvironmentObject var loading: Loading
     @EnvironmentObject var popupPresent: PopupPresent
+    @EnvironmentObject var navigationManager: NavigationManager
 
     var body: some View {
         VStack(spacing: 20) {
@@ -37,6 +38,11 @@ struct HomeView: View {
                     break
             }
         }
+        .onReceive(viewModel.$shouldNavigateToCountryDetail, perform: { shouldNavigate in
+            guard shouldNavigate,
+                  let selectedCountry = viewModel.selectedCountry else { return }
+            navigationManager.navigate(to: .countryDetail(selectedCountry))
+        })
         .sheet(isPresented: $openCountryPicker) {
             if !viewModel.allCountries.isEmpty{
                 CountriesSelectionSheet(viewModel: viewModel)
@@ -79,4 +85,6 @@ extension HomeView {
 
 #Preview {
     HomeView()
+        .environmentObject(Loading())
+        .environmentObject(NavigationManager())
 }
