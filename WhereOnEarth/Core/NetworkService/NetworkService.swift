@@ -33,13 +33,18 @@ final class NetworkService: APIClient {
     func performRequest<T: Decodable>(_ endpoint: APIEndpoint) -> AnyPublisher<T, APIClientError> {
         do {
             var request = try requestBuilder.buildRequest(from: endpoint)
-            request.cachePolicy = .reloadIgnoringLocalAndRemoteCacheData
+            request.cachePolicy = endpoint.cachePolicy
             logger.log(request: request)
             
             return session.dataTaskPublisher(for: request)
                 .tryMap { [weak self] data, response in
-                    self?.logger.log(response: response as! HTTPURLResponse, data: data)
-                    return try self?.validator.validate(response: response, data: data, for: T.self) ?? data
+                    guard let self else {
+                        throw APIClientError.apiError(.badResponse)
+                    }
+                    if let httpResponse = response as? HTTPURLResponse {
+                        self.logger.log(response: httpResponse, data: data)
+                    }
+                    return try self.validator.validate(response: response, data: data, for: T.self)
                 }
                 .decode(type: T.self, decoder: decoder)
                 .mapError { error in
@@ -60,12 +65,43 @@ final class NetworkService: APIClient {
                         return .unknown(error)
                     }
                 }
-                .receive(on: DispatchQueue.main)
                 .eraseToAnyPublisher()
         } catch let error as APIError {
             return Fail(error: .apiError(error)).eraseToAnyPublisher()
         } catch {
             return Fail(error: .unknown(error)).eraseToAnyPublisher()
+        }
+    }
+
+    func performRequest<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T {
+        do {
+            var request = try requestBuilder.buildRequest(from: endpoint)
+            request.cachePolicy = endpoint.cachePolicy
+            logger.log(request: request)
+
+            let (data, response) = try await session.data(for: request)
+            if let httpResponse = response as? HTTPURLResponse {
+                logger.log(response: httpResponse, data: data)
+            }
+            let validated = try validator.validate(response: response, data: data, for: T.self)
+            return try decoder.decode(T.self, from: validated)
+        } catch let error as APIClientError {
+            throw error
+        } catch let error as APIError {
+            throw APIClientError.apiError(error)
+        } catch let error as DecodingError {
+            throw APIClientError.decoding(error)
+        } catch let error as URLError {
+            switch error.code {
+                case .notConnectedToInternet:
+                    throw APIClientError.apiError(.noInternet)
+                case .timedOut:
+                    throw APIClientError.apiError(.requestTimeout)
+                default:
+                    throw APIClientError.unknown(error)
+            }
+        } catch {
+            throw APIClientError.unknown(error)
         }
     }
 }

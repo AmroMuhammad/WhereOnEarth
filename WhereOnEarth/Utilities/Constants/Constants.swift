@@ -18,7 +18,7 @@ struct Constants {
         static let serviceUnavailable = "The server is currently unable to handle the request due to a temporary overloading or maintenance of the server."
         static let requestTimeout = "Request time out"
         static let invalidURL = "Invalid URL"
-        static let noConnection = "No Internet Connection, plaese try again"
+        static let noConnection = "No Internet Connection, please try again"
         static let SomeThingWentWrong = "Something went wrong"
     }
 

@@ -10,5 +10,5 @@ import Combine
 
 protocol APIClient {
     func performRequest<T: Decodable>(_ endpoint: APIEndpoint) -> AnyPublisher<T, APIClientError>
-    
+    func performRequest<T: Decodable>(_ endpoint: APIEndpoint) async throws -> T
 }
