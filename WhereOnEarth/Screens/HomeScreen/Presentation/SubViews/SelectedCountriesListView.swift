@@ -37,6 +37,7 @@ struct SelectedCountriesListView: View {
                             )
                             .onTapGesture {
                                 viewModel.selectedCountry = item
+                                viewModel.shouldNavigateToCountryDetail = true
                             }
                         }
                         

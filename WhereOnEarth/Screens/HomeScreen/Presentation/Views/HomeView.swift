@@ -16,7 +16,7 @@ struct HomeView: View {
 
     var body: some View {
         VStack(spacing: 20) {
-            SearchView()
+            SearchView(onSearchTapped: { openCountryPicker = true })
             DefaultCountryView(viewModel: viewModel)
             SelectedCountriesListView(viewModel: viewModel)
             AddCountryButton(openCountryPicker: $openCountryPicker)
@@ -41,6 +41,7 @@ struct HomeView: View {
         .onReceive(viewModel.$shouldNavigateToCountryDetail, perform: { shouldNavigate in
             guard shouldNavigate,
                   let selectedCountry = viewModel.selectedCountry else { return }
+            viewModel.shouldNavigateToCountryDetail = false
             navigationManager.navigate(to: .countryDetail(selectedCountry))
         })
         .sheet(isPresented: $openCountryPicker) {
