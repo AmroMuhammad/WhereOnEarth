@@ -6,16 +6,15 @@
 //
 
 import Foundation
-import Combine
 
 @MainActor
 final class HomeViewModel: ObservableObject {
-    
+
     private let countriesUseCase: FetchCountriesUseCaseContract
-    @Published var locationManager: LocationManager
-    
-    @Published  var currentUserCountry: String = ""
+    private let locationService: LocationServiceProtocol
+
     @Published var allCountries: [Country] = []
+    @Published var defaultCountry: Country?
     @Published var isSuccess: Bool?
     @Published var showError: Bool?
     @Published var searchQuery = ""
@@ -25,37 +24,24 @@ final class HomeViewModel: ObservableObject {
 
     private let maxSelectedCountries = 5
     private static let fallbackCountryCode = "EG"
-    @Published var errorMessage: String = ""
+    var errorMessage: String = ""
 
     var searchList: [Country] {
         searchQuery.isEmpty ? allCountries : allCountries.filter {$0.name?.common?.localizedCaseInsensitiveContains(searchQuery) ?? false}
     }
 
     init(countriesUseCase: FetchCountriesUseCaseContract = FetchCountriesUseCase(),
-         locationManager: LocationManager = LocationManager()) {
+         locationService: LocationServiceProtocol? = nil) {
         self.countriesUseCase = countriesUseCase
-        self.locationManager = locationManager
-        self.currentUserCountry = locationManager.userCountry
-        bindLocationUpdates()
+        self.locationService = locationService ?? LocationManager()
     }
-    
-    private func bindLocationUpdates() {
-        locationManager.$userCountry
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] country in
-                guard let self else { return }
-                if !country.isEmpty {
-                    self.currentUserCountry = country
-                }
-            }
-            .store(in: &cancellables)
-    }
-    
+
     func getAllCountries() {
         Task {
             do {
                 let countries = try await countriesUseCase.executeFetchCountries()
                 self.allCountries = countries
+                await self.resolveDefaultCountry()
                 self.isSuccess = true
             } catch let error as APIClientError {
                 self.errorMessage = error.errorDescription ?? ""
@@ -65,5 +51,32 @@ final class HomeViewModel: ObservableObject {
                 self.showError = true
             }
         }
+    }
+
+    private func resolveDefaultCountry() async {
+        let country = await locationService.currentCountry()
+        if let country, let match = allCountries.first(where: { $0.name?.common == country }) {
+            defaultCountry = match
+            return
+        }
+        defaultCountry = allCountries.first(where: { $0.cca2 == Self.fallbackCountryCode })
+    }
+
+    func countrySelection(_ country: Country) {
+        if selectedCountriesList.contains(country) {
+            selectedCountriesList.removeAll { $0 == country }
+            exceedMaxSelectedCountries = false
+        } else {
+            if selectedCountriesList.count < maxSelectedCountries {
+                selectedCountriesList.append(country)
+                exceedMaxSelectedCountries = false
+            } else {
+                exceedMaxSelectedCountries = true
+            }
+        }
+    }
+
+    func deleteCountry(_ country: Country) {
+        selectedCountriesList.removeAll { $0 == country }
     }
 }
