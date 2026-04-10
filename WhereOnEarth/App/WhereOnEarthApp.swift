@@ -11,12 +11,19 @@ import SwiftUI
 struct WhereOnEarthApp: App {
     @StateObject private var loading = Loading()
     @StateObject var popupPresent = PopupPresent()
+    @StateObject private var navigationManager = NavigationManager()
 
     var body: some Scene {
         WindowGroup {
-            AppLoader {
-                HomeView()
+            AppLoader{
+                NavigationStack(path: $navigationManager.path) {
+                    HomeView()
+                        .navigationDestination(for: AppRoute.self) { route in
+                            AppRouter.view(for: route)
+                        }
+                }
             }
+            .environmentObject(navigationManager)
             .environmentObject(popupPresent)
             .environmentObject(loading)
             .popup(isPresented: popupPresent.isPopupPresented) {
