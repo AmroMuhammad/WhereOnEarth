@@ -13,13 +13,25 @@ protocol FetchCountriesUseCaseContract {
 
 final class FetchCountriesUseCase: FetchCountriesUseCaseContract {
 
-    private let repo: CountriesRemoteRepositoryContract
+    private let remoteRepo: CountriesRemoteRepositoryContract
+    private let localRepo: CountriesLocalRepositoryContract
 
-    init(repo: CountriesRemoteRepositoryContract = CountriesRemoteRepository()) {
-        self.repo = repo
+    init(remoteRepo: CountriesRemoteRepositoryContract = CountriesRemoteRepository(),
+         localRepo: CountriesLocalRepositoryContract = CountriesLocalRepository()) {
+        self.remoteRepo = remoteRepo
+        self.localRepo = localRepo
     }
 
     func executeFetchCountries() async throws -> [Country] {
-        try await repo.fetchCountries()
+        do {
+            let countries = try await remoteRepo.fetchCountries()
+            try? localRepo.saveCountries(countries)
+            return countries
+        } catch {
+            if let cached = try? localRepo.loadCountries(), !cached.isEmpty {
+                return cached
+            }
+            throw error
+        }
     }
 }
