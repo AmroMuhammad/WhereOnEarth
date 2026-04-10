@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct CustomDialog: View {
-    let icon: Image
+    let icon: Image?
     let title: String
     let message: String
     let primaryButtonTitle: String
@@ -18,10 +18,12 @@ struct CustomDialog: View {
     
     var body: some View {
         VStack(spacing: 20) {
-            icon
-                .resizable()
-                .scaledToFit()
-                .frame(width: 50, height: 50)
+            if let icon {
+                icon
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 50, height: 50)
+            }
             
             Text(title)
                 .font(.title2)
@@ -34,14 +36,15 @@ struct CustomDialog: View {
                 .multilineTextAlignment(.center)
             
             HStack(spacing: 16) {
-                if let secondary = secondaryButtonTitle {
-                    Button(secondary) {
+                if let secondaryButtonTitle {
+                    Button(secondaryButtonTitle) {
                         secondaryAction?()
                     }
                     .frame(maxWidth: .infinity)
                     .padding()
                     .background(.gray.opacity(0.15))
                     .cornerRadius(10)
+                    .foregroundStyle(.red)
                 }
                 
                 Button(primaryButtonTitle) {

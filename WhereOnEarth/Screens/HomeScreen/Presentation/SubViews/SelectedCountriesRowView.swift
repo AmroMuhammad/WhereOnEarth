@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SelectedCountriesRowView: View {
     let country: Country
+    let onDelete: () -> Void
     
     var body: some View {
         HStack(spacing: 12) {
@@ -20,6 +21,12 @@ struct SelectedCountriesRowView: View {
             
             Spacer()
             
+            Button(action: onDelete) {
+                AppResources.Assets.deleteIcon
+                    .resizable()
+                    .scaledToFit()
+            }
+            .frame(width: 20, height: 30)
         }
         .padding()
         .frame(maxWidth: .infinity, maxHeight: 60)
@@ -32,5 +39,5 @@ struct SelectedCountriesRowView: View {
 }
 
 #Preview {
-    SelectedCountriesRowView(country: Country(flags: nil, name: nil, cca2: nil, currencies: nil, capital: nil, subregion: nil, languages: nil, population: nil, timezones: nil))
+    SelectedCountriesRowView(country: Country(flags: nil, name: nil, cca2: nil, currencies: nil, capital: nil, subregion: nil, languages: nil, population: nil, timezones: nil), onDelete: {})
 }

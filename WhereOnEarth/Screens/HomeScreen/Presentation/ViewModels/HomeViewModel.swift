@@ -93,4 +93,8 @@ final class HomeViewModel: ObservableObject {
             }
         }
     }
+    
+    func deleteCountry(_ country: Country) {
+        selectedCountriesList.removeAll { $0 == country }
+    }
 }

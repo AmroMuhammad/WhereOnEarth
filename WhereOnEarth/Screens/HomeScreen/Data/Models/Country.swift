@@ -22,7 +22,7 @@ struct Country: Codable, Hashable, Identifiable {
     let timezones: [String]?
     
     var id: String {
-        name?.common ?? UUID().uuidString
+        cca2 ?? name?.common ?? ""
     }
     
     static func == (lhs: Country, rhs: Country) -> Bool {
