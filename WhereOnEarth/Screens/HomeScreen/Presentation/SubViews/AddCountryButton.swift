@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct AddCountryButton: View {
+    @Binding var openCountryPicker: Bool
+
     var body: some View {
         Button {
-            print("Button Clicked")
+            openCountryPicker.toggle()
         } label: {
             HStack {
                 Text(Constants.Localization.addCountryButtonTitle)
@@ -25,5 +27,5 @@ struct AddCountryButton: View {
 }
 
 #Preview {
-    AddCountryButton()
+    AddCountryButton(openCountryPicker: .constant(true))
 }

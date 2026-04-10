@@ -79,4 +79,18 @@ final class HomeViewModel: ObservableObject {
     func deleteCountry(_ country: Country) {
         selectedCountriesList.removeAll { $0 == country }
     }
+    
+    func countrySelection(_ country: Country) {
+        if selectedCountriesList.contains(country) {
+            selectedCountriesList.removeAll { $0 == country }
+            exceedMaxSelectedCountries = false
+        } else {
+            if selectedCountriesList.count < maxSelectedCountries {
+                selectedCountriesList.append(country)
+                exceedMaxSelectedCountries = false
+            }else{
+                exceedMaxSelectedCountries = true
+            }
+        }
+    }
 }

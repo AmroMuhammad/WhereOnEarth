@@ -31,6 +31,11 @@ struct Constants {
         static let selectedCountries = "Selected Countries:"
         static let addCountryButtonTitle = "Add Country"
         static let egypt = "Egypt"
-        
+        static let done = "Done"
+        static let searchCountries = "Search for countries"
+        static let otherCountry = "other countries :"
+        static let onlyFiveCountriesAllowed = "You Can't Add more than 5 Countries."
+        static let checkConnection = "Something went wrong, Please check your Internet Connection and try again"
+        static let addUpToCountries = "You can add up to 5 countries"
     }
 }
