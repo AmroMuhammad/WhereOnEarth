@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct SearchView: View {
+    var onSearchTapped: () -> Void = {}
+
     var body: some View {
         HStack{
             Text(Constants.Localization.appName)
@@ -16,17 +18,19 @@ struct SearchView: View {
             
             Spacer()
             
-            AppResources.Assets.magnifyingGlass
-                .padding(.horizontal)
-                .foregroundStyle(.white)
-                .frame(width: 25, height: 25)
-                .padding(12)
-                .backgroundStyle(
-                    cornerRadius: 12,
-                    borderColor: .border,
-                    borderWidth: 1,
-                    backgroundColor: .main
-                )
+            Button(action: onSearchTapped) {
+                AppResources.Assets.magnifyingGlass
+                    .padding(.horizontal)
+                    .foregroundStyle(.white)
+                    .frame(width: 25, height: 25)
+                    .padding(12)
+                    .backgroundStyle(
+                        cornerRadius: 12,
+                        borderColor: .border,
+                        borderWidth: 1,
+                        backgroundColor: .main
+                    )
+            }
         }
     }
 }
