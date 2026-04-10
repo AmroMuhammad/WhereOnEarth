@@ -19,6 +19,10 @@ final class SwiftDataManager: LocalStorageManager {
     private let container: ModelContainer
     private let context: ModelContext
 
+    static let shared: SwiftDataManager = SwiftDataManager(
+        schema: Schema([CachedCountry.self, CachedSelectedCountry.self, CachedDefaultCountry.self])
+    )
+
     init(schema: Schema, inMemory: Bool = false) {
         let config = ModelConfiguration(isStoredInMemoryOnly: inMemory)
         self.container = try! ModelContainer(for: schema, configurations: [config])
@@ -38,7 +42,10 @@ final class SwiftDataManager: LocalStorageManager {
     }
 
     func deleteAll<T: PersistentModel>(_ type: T.Type) throws {
-        try context.delete(model: type)
+        let items = try context.fetch(FetchDescriptor<T>())
+        for item in items {
+            context.delete(item)
+        }
         try context.save()
     }
 }

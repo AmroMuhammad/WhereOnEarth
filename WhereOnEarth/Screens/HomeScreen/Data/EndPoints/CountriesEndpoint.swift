@@ -24,7 +24,7 @@ extension CountriesEndpoint: APIEndpoint {
     var apiType: APIType? {
         switch self {
             case .getAll:
-                return .urlQuery(["fields" : "name,capital,flags,currencies,languages"])
+                return .urlQuery(["fields" : "name,capital,flags,currencies,languages,cca2"])
         }
     }
 }
