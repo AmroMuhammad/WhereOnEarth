@@ -16,5 +16,6 @@ enum AppResources {
         static let unCheckIcon = "uncheck-icon".image
         static let noConnection = "no-connection".image
         static let emptyList = "emptyList".image
+        static let errorIcon = "error-icon".image
     }
 }

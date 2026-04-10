@@ -10,6 +10,8 @@ import SwiftData
 
 @main
 struct WhereOnEarthApp: App {
+    @StateObject private var loading = Loading()
+    @StateObject var popupPresent = PopupPresent()
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
             Item.self,
@@ -25,7 +27,14 @@ struct WhereOnEarthApp: App {
 
     var body: some Scene {
         WindowGroup {
-            HomeView()
+            AppLoader{
+                HomeView()
+            }
+            .environmentObject(popupPresent)
+            .environmentObject(loading)
+            .popup(isPresented: popupPresent.isPopupPresented) {
+                popupPresent.popupView
+            }
         }
         .modelContainer(sharedModelContainer)
     }

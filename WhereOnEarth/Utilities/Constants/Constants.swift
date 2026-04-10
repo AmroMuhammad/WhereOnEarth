@@ -37,5 +37,8 @@ struct Constants {
         static let onlyFiveCountriesAllowed = "You Can't Add more than 5 Countries."
         static let checkConnection = "Something went wrong, Please check your Internet Connection and try again"
         static let addUpToCountries = "You can add up to 5 countries"
+        static let error = "Error"
+        static let retry = "Retry"
+        static let cancel = "Cancel"
     }
 }

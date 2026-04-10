@@ -10,6 +10,8 @@ import SwiftUI
 struct HomeView: View {
     @StateObject var viewModel: HomeViewModel = HomeViewModel()
     @State var openCountryPicker: Bool = false
+    @EnvironmentObject var loading: Loading
+    @EnvironmentObject var popupPresent: PopupPresent
 
     var body: some View {
         VStack(spacing: 20) {
@@ -20,7 +22,18 @@ struct HomeView: View {
         }
         .padding(16)
         .oneTimeCalling{
+            loading.isLoading = true
             viewModel.getAllCountries()
+        }
+        .onReceive(viewModel.$isSuccess) { value in
+            guard value ?? false else { return }
+            loading.isLoading = false
+        }
+        .onReceive(viewModel.$showError) { showError in
+            guard showError ?? false else {return}
+            
+            loading.isLoading = false
+            presentErrorPopup()
         }
         .sheet(isPresented: $openCountryPicker) {
             if !viewModel.allCountries.isEmpty{
@@ -29,6 +42,30 @@ struct HomeView: View {
                 NoConnectionView()
             }
         }
+    }
+}
+
+extension HomeView {
+    private func presentErrorPopup() {
+        popupPresent.popupView.content = {
+            AnyView(
+                CustomDialog(
+                    icon: AppResources.Assets.errorIcon,
+                    title: Constants.Localization.error,
+                    message: viewModel.errorMessage,
+                    primaryButtonTitle: Constants.Localization.retry,
+                    primaryAction: {
+                        viewModel.getAllCountries()
+                        popupPresent.isPopupPresented = false
+                    },
+                    secondaryButtonTitle: Constants.Localization.cancel,
+                    secondaryAction: {
+                        popupPresent.isPopupPresented = false
+                    }
+                )
+            )
+        }
+        popupPresent.isPopupPresented = true
     }
 }
 
