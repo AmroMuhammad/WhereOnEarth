@@ -43,9 +43,9 @@ struct AppLoader<Content: View>: View {
         ZStack {
             content
                 .environmentObject(loading)
-                .disabled(loading.isLoading ?? false)
-            
-            if loading.isLoading ?? false {
+                .disabled(loading.isLoading)
+
+            if loading.isLoading {
                 Color.black.opacity(0.3)
                     .edgesIgnoringSafeArea(.all)
                     .allowsHitTesting(true)
@@ -61,11 +61,7 @@ struct AppLoader<Content: View>: View {
 }
 
 class Loading: ObservableObject {
-    @Published var isLoading: Bool? {
-        didSet {
-            print("isLoading updated to: \(String(describing: isLoading))")
-        }
-    }
+    @Published var isLoading: Bool = false
 }
 
 

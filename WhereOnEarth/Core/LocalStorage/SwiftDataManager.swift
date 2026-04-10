@@ -25,7 +25,11 @@ final class SwiftDataManager: LocalStorageManager {
 
     init(schema: Schema, inMemory: Bool = false) {
         let config = ModelConfiguration(isStoredInMemoryOnly: inMemory)
-        self.container = try! ModelContainer(for: schema, configurations: [config])
+        do {
+            self.container = try ModelContainer(for: schema, configurations: [config])
+        } catch {
+            fatalError("Failed to initialize ModelContainer: \(error.localizedDescription)")
+        }
         self.context = ModelContext(container)
     }
 

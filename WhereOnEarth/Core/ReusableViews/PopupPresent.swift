@@ -11,9 +11,6 @@ class PopupPresent: ObservableObject {
     
     @Published var isPopupPresented = false
     @Published var isSheetPresented = false
-    @Published var councilsScrollToTop = false
-    @Published var homeScrollToTop = false
-    @Published var committeesScrollToTop = false
     
     @Published var popupView: GenericView = GenericView {
         AnyView(VStack{})

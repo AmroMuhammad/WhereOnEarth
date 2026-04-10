@@ -38,7 +38,7 @@ struct Country: Codable, Hashable, Identifiable {
 struct Currency: Codable {
     let name, symbol: String?
     
-    var compinedName: String {
+    var combinedName: String {
         "\(name ?? "") (\(symbol ?? ""))"
     }
 }

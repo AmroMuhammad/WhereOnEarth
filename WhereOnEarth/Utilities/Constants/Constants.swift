@@ -19,7 +19,7 @@ struct Constants {
         static let requestTimeout = "Request time out"
         static let invalidURL = "Invalid URL"
         static let noConnection = "No Internet Connection, please try again"
-        static let SomeThingWentWrong = "Something went wrong"
+        static let somethingWentWrong = "Something went wrong"
     }
 
     struct Localization {
@@ -44,5 +44,6 @@ struct Constants {
         static let delete = "Delete"
         static let cancel = "Cancel"
         static let language = "Language:"
+        static let noSearchResults = "No countries found"
     }
 }
