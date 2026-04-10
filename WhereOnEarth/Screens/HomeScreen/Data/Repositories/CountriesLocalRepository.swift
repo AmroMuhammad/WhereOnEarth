@@ -22,4 +22,20 @@ final class CountriesLocalRepository: CountriesLocalRepositoryContract {
     func loadCountries() throws -> [Country] {
         try localDataSource.getCachedCountries()
     }
+
+    func saveSelectedCountries(_ countries: [Country]) throws {
+        try localDataSource.cacheSelectedCountries(countries)
+    }
+
+    func loadSelectedCountries() throws -> [Country] {
+        try localDataSource.getCachedSelectedCountries()
+    }
+
+    func saveDefaultCountry(_ country: Country) throws {
+        try localDataSource.cacheDefaultCountry(country)
+    }
+
+    func loadDefaultCountry() throws -> Country? {
+        try localDataSource.getCachedDefaultCountry()
+    }
 }

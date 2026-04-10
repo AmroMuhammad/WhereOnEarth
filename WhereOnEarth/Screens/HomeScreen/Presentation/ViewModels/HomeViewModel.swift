@@ -19,6 +19,7 @@ final class HomeViewModel: ObservableObject {
 
     private let countriesUseCase: FetchCountriesUseCaseContract
     private let locationService: LocationServiceProtocol
+    private let localRepo: CountriesLocalRepositoryContract
 
     @Published var allCountries: [Country] = []
     @Published var defaultCountry: Country?
@@ -38,9 +39,12 @@ final class HomeViewModel: ObservableObject {
     }
 
     init(countriesUseCase: FetchCountriesUseCaseContract = FetchCountriesUseCase(),
-         locationService: LocationServiceProtocol? = nil) {
+         locationService: LocationServiceProtocol? = nil,
+         localRepo: CountriesLocalRepositoryContract = CountriesLocalRepository()) {
         self.countriesUseCase = countriesUseCase
         self.locationService = locationService ?? LocationManager()
+        self.localRepo = localRepo
+        self.selectedCountriesList = (try? localRepo.loadSelectedCountries()) ?? []
     }
 
     func getAllCountries() {
@@ -63,9 +67,20 @@ final class HomeViewModel: ObservableObject {
         let country = await locationService.currentCountry()
         if let country, let match = allCountries.first(where: { $0.name?.common == country }) {
             defaultCountry = match
+            try? localRepo.saveDefaultCountry(match)
             return
         }
-        defaultCountry = allCountries.first(where: { $0.cca2 == Self.fallbackCountryCode })
+
+        if let cached = try? localRepo.loadDefaultCountry() {
+            defaultCountry = cached
+            return
+        }
+
+        let fallback = allCountries.first(where: { $0.cca2 == Self.fallbackCountryCode })
+        defaultCountry = fallback
+        if let fallback {
+            try? localRepo.saveDefaultCountry(fallback)
+        }
     }
 
     func countrySelection(_ country: Country) {
@@ -80,9 +95,15 @@ final class HomeViewModel: ObservableObject {
                 exceedMaxSelectedCountries = true
             }
         }
+        persistSelectedCountries()
     }
 
     func deleteCountry(_ country: Country) {
         selectedCountriesList.removeAll { $0 == country }
+        persistSelectedCountries()
+    }
+
+    private func persistSelectedCountries() {
+        try? localRepo.saveSelectedCountries(selectedCountriesList)
     }
 }
