@@ -19,7 +19,6 @@ struct HomeView: View {
             SearchView(onSearchTapped: { openCountryPicker = true })
             DefaultCountryView(viewModel: viewModel)
             SelectedCountriesListView(viewModel: viewModel)
-            AddCountryButton(openCountryPicker: $openCountryPicker)
         }
         .padding(16)
         .oneTimeCalling {

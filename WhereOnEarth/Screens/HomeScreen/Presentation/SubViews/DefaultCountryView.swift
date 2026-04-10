@@ -23,7 +23,7 @@ struct DefaultCountryView: View {
                         .font(.callout)
                     Text("\(Constants.Localization.capital) \(country?.capital?.first ?? "")")
                         .font(.callout)
-                    Text("\(Constants.Localization.currency) \(country?.currencies?.values.first?.compinedName ?? "")")
+                    Text("\(Constants.Localization.currency) \(country?.currencies?.values.first?.combinedName ?? "")")
                         .font(.callout)
                 }
                 Spacer()

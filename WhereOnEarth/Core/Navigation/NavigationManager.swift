@@ -15,6 +15,7 @@ class NavigationManager: ObservableObject {
     }
 
     func back() {
-        path.removeLast(path.count)
+        guard !path.isEmpty else { return }
+        path.removeLast()
     }
 }

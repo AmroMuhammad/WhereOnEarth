@@ -25,23 +25,29 @@ struct CountriesSelectionSheet: View {
                 .padding(.horizontal)
             
             ScrollView {
-                LazyVStack {
-                    ForEach(viewModel.searchList) { item in
-                        HStack {
-                            CountryFlagView(url: item.flags?.png)
-                                .frame(width: 40, height: 40)
-                            Text(item.name?.common ?? "")
-                            Spacer()
-                            viewModel.selectedCountriesList.contains(item) ? AppResources.Assets.checkIcon : AppResources.Assets.unCheckIcon
-                        }
-                        .padding(.vertical, 8)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            viewModel.countrySelection(item)
+                if viewModel.searchList.isEmpty {
+                    Text(Constants.Localization.noSearchResults)
+                        .foregroundStyle(.gray)
+                        .padding(.top, 40)
+                } else {
+                    LazyVStack {
+                        ForEach(viewModel.searchList) { item in
+                            HStack {
+                                CountryFlagView(url: item.flags?.png)
+                                    .frame(width: 40, height: 40)
+                                Text(item.name?.common ?? "")
+                                Spacer()
+                                viewModel.selectedCountriesList.contains(item) ? AppResources.Assets.checkIcon : AppResources.Assets.unCheckIcon
+                            }
+                            .padding(.vertical, 8)
+                            .contentShape(Rectangle())
+                            .onTapGesture {
+                                viewModel.countrySelection(item)
+                            }
                         }
                     }
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
             }
             
         }
