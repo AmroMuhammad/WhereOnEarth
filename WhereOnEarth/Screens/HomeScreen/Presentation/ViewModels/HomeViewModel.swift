@@ -7,6 +7,13 @@
 
 import Foundation
 
+enum LoadState: Equatable {
+    case idle
+    case loading
+    case loaded
+    case failed(String)
+}
+
 @MainActor
 final class HomeViewModel: ObservableObject {
 
@@ -15,8 +22,7 @@ final class HomeViewModel: ObservableObject {
 
     @Published var allCountries: [Country] = []
     @Published var defaultCountry: Country?
-    @Published var isSuccess: Bool?
-    @Published var showError: Bool?
+    @Published var state: LoadState = .idle
     @Published var searchQuery = ""
     @Published var exceedMaxSelectedCountries: Bool = false
     @Published var selectedCountriesList: [Country] = []
@@ -37,18 +43,17 @@ final class HomeViewModel: ObservableObject {
     }
 
     func getAllCountries() {
+        state = .loading
         Task {
             do {
                 let countries = try await countriesUseCase.executeFetchCountries()
                 self.allCountries = countries
                 await self.resolveDefaultCountry()
-                self.isSuccess = true
+                self.state = .loaded
             } catch let error as APIClientError {
-                self.errorMessage = error.errorDescription ?? ""
-                self.showError = true
+                self.state = .failed(error.errorDescription ?? "")
             } catch {
-                self.errorMessage = error.localizedDescription
-                self.showError = true
+                self.state = .failed(error.localizedDescription)
             }
         }
     }
@@ -76,24 +81,6 @@ final class HomeViewModel: ObservableObject {
         }
     }
 
-    func deleteCountry(_ country: Country) {
-        selectedCountriesList.removeAll { $0 == country }
-    }
-    
-    func countrySelection(_ country: Country) {
-        if selectedCountriesList.contains(country) {
-            selectedCountriesList.removeAll { $0 == country }
-            exceedMaxSelectedCountries = false
-        } else {
-            if selectedCountriesList.count < maxSelectedCountries {
-                selectedCountriesList.append(country)
-                exceedMaxSelectedCountries = false
-            }else{
-                exceedMaxSelectedCountries = true
-            }
-        }
-    }
-    
     func deleteCountry(_ country: Country) {
         selectedCountriesList.removeAll { $0 == country }
     }

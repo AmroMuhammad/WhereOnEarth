@@ -21,19 +21,21 @@ struct HomeView: View {
             AddCountryButton(openCountryPicker: $openCountryPicker)
         }
         .padding(16)
-        .oneTimeCalling{
-            loading.isLoading = true
+        .oneTimeCalling {
             viewModel.getAllCountries()
         }
-        .onReceive(viewModel.$isSuccess) { value in
-            guard value ?? false else { return }
-            loading.isLoading = false
-        }
-        .onReceive(viewModel.$showError) { showError in
-            guard showError ?? false else {return}
-            
-            loading.isLoading = false
-            presentErrorPopup()
+        .onChange(of: viewModel.state) { _, newState in
+            switch newState {
+                case .loading:
+                    loading.isLoading = true
+                case .loaded:
+                    loading.isLoading = false
+                case .failed:
+                    loading.isLoading = false
+                    presentErrorPopup()
+                case .idle:
+                    break
+            }
         }
         .sheet(isPresented: $openCountryPicker) {
             if !viewModel.allCountries.isEmpty{
@@ -47,12 +49,18 @@ struct HomeView: View {
 
 extension HomeView {
     private func presentErrorPopup() {
+        let message: String
+        if case .failed(let msg) = viewModel.state {
+            message = msg
+        } else {
+            message = ""
+        }
         popupPresent.popupView.content = {
             AnyView(
                 CustomDialog(
                     icon: AppResources.Assets.errorIcon,
                     title: Constants.Localization.error,
-                    message: viewModel.errorMessage,
+                    message: message,
                     primaryButtonTitle: Constants.Localization.retry,
                     primaryAction: {
                         viewModel.getAllCountries()
