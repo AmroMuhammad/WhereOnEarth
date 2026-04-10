@@ -30,6 +30,7 @@ struct Constants {
         static let currency = "Currency:"
         static let selectedCountries = "Selected Countries:"
         static let addCountryButtonTitle = "Add Country"
+        static let egypt = "Egypt"
         
     }
 }
