@@ -143,5 +143,3 @@ Displays error messages and empty states when API fails.
 Caches selected countries for offline access.
 
 Alerts user when offline.
-
-Swipe-to-refresh available when back online.
